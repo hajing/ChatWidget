@@ -7,9 +7,10 @@ import { useChat } from '@/hooks/useChat'
 import { TooltipProvider } from '@/components/ui/tooltip'
 
 export default function App() {
-  const { messages, isStreaming, title, sendMessage, resetChat, retryLastMessage } = useChat()
+  const { messages, isThinking, isStreaming, title, sendMessage, resetChat, retryLastMessage } = useChat()
 
   const hasMessages = messages.length > 0
+  const busy = isThinking || isStreaming
 
   return (
     <TooltipProvider delayDuration={300}>
@@ -23,6 +24,7 @@ export default function App() {
           {hasMessages ? (
             <MessageList
               messages={messages}
+              isThinking={isThinking}
               isStreaming={isStreaming}
               onRetry={retryLastMessage}
             />
@@ -32,7 +34,7 @@ export default function App() {
               onSelectPrompt={sendMessage}
             />
           )}
-          <Composer onSend={sendMessage} disabled={isStreaming} />
+          <Composer onSend={sendMessage} disabled={busy} />
         </ChatWidget>
       </div>
     </TooltipProvider>

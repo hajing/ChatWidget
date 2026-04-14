@@ -2,9 +2,10 @@ import { useEffect, useRef } from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import UserMessage from './UserMessage'
 import AssistantMessage from './AssistantMessage'
+import ThinkingBlock from './ThinkingBlock'
 import MessageActions from './MessageActions'
 
-export default function MessageList({ messages, isStreaming, onRetry }) {
+export default function MessageList({ messages, isThinking, isStreaming, onRetry }) {
   const bottomRef = useRef(null)
 
   useEffect(() => {
@@ -19,13 +20,21 @@ export default function MessageList({ messages, isStreaming, onRetry }) {
           if (msg.role === 'user') {
             return <UserMessage key={msg.id} content={msg.content} />
           }
+          const thinkingActive = isThinking && isLast
+          const streamingActive = isStreaming && isLast
+          const busy = thinkingActive || streamingActive
           return (
             <div key={msg.id}>
-              <AssistantMessage
-                content={msg.content}
-                isStreaming={isStreaming && isLast}
-              />
-              {msg.content && !(isStreaming && isLast) && (
+              {msg.thinking && (
+                <ThinkingBlock thinking={msg.thinking} isActive={thinkingActive} />
+              )}
+              {msg.content && (
+                <AssistantMessage
+                  content={msg.content}
+                  isStreaming={streamingActive}
+                />
+              )}
+              {msg.content && !busy && (
                 <MessageActions content={msg.content} onRetry={onRetry} />
               )}
             </div>
