@@ -1,5 +1,5 @@
 import { MessageCircle, LayoutGrid, Sparkles, Code2, Server } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 const STARTER_PROMPTS = [
   { icon: MessageCircle, text: 'What is ChatKit?' },
@@ -17,20 +17,17 @@ export default function StartScreen({ greeting, onSelectPrompt }) {
       </h2>
       <div className="flex flex-col gap-2 w-full">
         {STARTER_PROMPTS.map(({ icon: Icon, text }) => (
-          <button
+          <Button
             key={text}
+            variant="ghost"
             onClick={() => onSelectPrompt(text)}
-            className={cn(
-              'group flex items-center gap-3 w-full text-left px-3 py-2.5',
-              'rounded-xl text-sm text-gray-700',
-              'hover:bg-gray-50 transition-colors',
-            )}
+            className="group flex items-center gap-3 w-full justify-start h-auto px-3 py-2.5 rounded-xl text-sm text-gray-700 font-normal"
           >
             <span className="flex items-center justify-center w-6 h-6 shrink-0 text-gray-400 group-hover:text-gray-600 transition-colors">
               <Icon className="w-[18px] h-[18px]" />
             </span>
             <span>{text}</span>
-          </button>
+          </Button>
         ))}
       </div>
     </div>

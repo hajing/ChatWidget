@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { Plus, ArrowUp, Atom } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip'
 import ModelSelector from './ModelSelector'
 
 export default function Composer({ onSend, disabled }) {
@@ -50,23 +52,31 @@ export default function Composer({ onSend, disabled }) {
         </div>
         <div className="flex items-center justify-between px-2 pb-2">
           <div className="flex items-center gap-0.5">
-            <button
-              className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
-              title="添加附件"
-            >
-              <Plus className="w-[18px] h-[18px]" />
-            </button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-gray-500"
+                >
+                  <Plus className="w-[18px] h-[18px]" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>添加附件</TooltipContent>
+            </Tooltip>
             <ModelSelector />
-            <button
-              className={cn(
-                'flex items-center gap-1.5 px-2 py-1 rounded-lg text-[13px]',
-                'text-gray-500 hover:bg-gray-100 transition-colors',
-              )}
-              title="Search docs"
-            >
-              <Atom className="w-4 h-4" />
-              <span>Docs</span>
-            </button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="h-auto px-2 py-1 text-[13px] text-gray-500 gap-1.5"
+                >
+                  <Atom className="w-4 h-4" />
+                  <span>Docs</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Search docs</TooltipContent>
+            </Tooltip>
           </div>
           <button
             onClick={handleSubmit}
@@ -77,7 +87,6 @@ export default function Composer({ onSend, disabled }) {
                 ? 'bg-black text-white hover:bg-gray-800'
                 : 'bg-gray-200 text-gray-400 cursor-not-allowed',
             )}
-            title="发送消息"
           >
             <ArrowUp className="w-[18px] h-[18px]" />
           </button>

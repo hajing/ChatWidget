@@ -1,5 +1,6 @@
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import CodeBlock from './CodeBlock'
 
 const markdownComponents = {
   p: ({ children }) => (
@@ -20,18 +21,14 @@ const markdownComponents = {
   strong: ({ children }) => (
     <strong className="font-semibold">{children}</strong>
   ),
-  pre: ({ children }) => (
-    <div className="my-3 rounded-lg overflow-hidden bg-[#1e1e1e]">
-      <pre className="p-4 overflow-x-auto text-[13px] leading-relaxed">
-        {children}
-      </pre>
-    </div>
-  ),
-  code: ({ node, children, ...props }) => {
-    const isBlock = node?.position?.start?.line !== node?.position?.end?.line
-      || node?.parent?.tagName === 'pre'
-    if (props.className || isBlock) {
-      return <code className="text-gray-200 font-mono">{children}</code>
+  pre: ({ children }) => <>{children}</>,
+  code: ({ node, className, children, ...props }) => {
+    const match = /language-(\w+)/.exec(className || '')
+    const isInPre = node?.parent?.tagName === 'pre' ||
+      node?.position?.start?.line !== node?.position?.end?.line
+
+    if (match || isInPre) {
+      return <CodeBlock language={match?.[1]}>{children}</CodeBlock>
     }
     return (
       <code className="px-1.5 py-0.5 bg-gray-100 rounded text-[13px] font-mono">
@@ -43,7 +40,7 @@ const markdownComponents = {
 
 export default function AssistantMessage({ content, isStreaming }) {
   return (
-    <div className="px-6 py-2 text-[15px] text-gray-900">
+    <div className="px-6 py-2 text-[15px] text-gray-900 overflow-hidden break-words">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={markdownComponents}

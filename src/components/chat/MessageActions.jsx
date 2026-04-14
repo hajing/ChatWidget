@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { Copy, ThumbsUp, ThumbsDown, RefreshCw, Check } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 
-function ActionButton({ icon: Icon, activeIcon: ActiveIcon, label, onClick, className }) {
+function ActionButton({ icon: Icon, activeIcon: ActiveIcon, label, onClick }) {
   const [active, setActive] = useState(false)
 
   const handleClick = () => {
@@ -16,18 +18,22 @@ function ActionButton({ icon: Icon, activeIcon: ActiveIcon, label, onClick, clas
   const DisplayIcon = active && ActiveIcon ? ActiveIcon : Icon
 
   return (
-    <button
-      onClick={handleClick}
-      className={cn(
-        'inline-flex items-center justify-center rounded-md p-1.5',
-        'text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors',
-        active && 'text-gray-600',
-        className,
-      )}
-      title={label}
-    >
-      <DisplayIcon className="w-4 h-4" />
-    </button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={handleClick}
+          className={cn(
+            'h-7 w-7 text-gray-400 hover:text-gray-600',
+            active && 'text-gray-600',
+          )}
+        >
+          <DisplayIcon className="w-4 h-4" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
   )
 }
 
