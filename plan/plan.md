@@ -1,0 +1,1 @@
+需求：请帮我使用 vite + react18 + lucide-react + pnpm + jsx + tailwind + shadcn/ui 复刻 chatkit，我需要一个 AI Assistant 助手界面。请使用 chrome_devtools 连接 chrome 查看 `https://chatkit.studio/playground`，调研清楚并给我一个能够落地的方案
