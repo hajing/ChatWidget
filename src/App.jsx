@@ -6,6 +6,7 @@ import StartScreen from '@/components/chat/StartScreen'
 import MessageList from '@/components/chat/MessageList'
 import Composer from '@/components/chat/Composer'
 import HistoryPanel from '@/components/chat/HistoryPanel'
+import ResizableContainer from '@/components/dev/ResizableContainer'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { useChatStore } from '@/stores/chat-store'
 
@@ -73,13 +74,15 @@ export default function App() {
   return (
     <TooltipProvider delayDuration={300}>
       <div className="min-h-screen bg-[#f9f9f9] flex items-center justify-center p-4">
-        <ChatWidget>
-          <Routes>
-            <Route path="/" element={<ChatView />} />
-            <Route path="/chat/:id" element={<ChatView />} />
-            <Route path="/history" element={<HistoryView />} />
-          </Routes>
-        </ChatWidget>
+        <ResizableContainer>
+          <ChatWidget>
+            <Routes>
+              <Route path="/" element={<ChatView />} />
+              <Route path="/chat/:id" element={<ChatView />} />
+              <Route path="/history" element={<HistoryView />} />
+            </Routes>
+          </ChatWidget>
+        </ResizableContainer>
       </div>
     </TooltipProvider>
   )
