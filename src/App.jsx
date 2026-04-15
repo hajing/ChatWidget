@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import Background3D from '@/components/background/Background3D'
 import ChatWidget from '@/components/chat/ChatWidget'
 import ResizableContainer from '@/components/dev/ResizableContainer'
 import { TooltipProvider } from '@/components/ui/tooltip'
@@ -8,7 +9,8 @@ import HistoryPage from '@/pages/history'
 export default function App() {
   return (
     <TooltipProvider delayDuration={300}>
-      <div className="min-h-screen bg-[#f9f9f9] flex items-center justify-center p-4">
+      <Background3D />
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <ResizableContainer>
           <ChatWidget>
             <Routes>
