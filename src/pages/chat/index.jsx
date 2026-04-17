@@ -66,7 +66,7 @@ export default function ChatPage() {
           disabled={busy}
         />
       )}
-      <Composer onSend={handleSend} disabled={busy} readonly={!hasMessages && !busy} />
+      <Composer onSend={handleSend} disabled={busy} readonly />
     </>
   )
 }

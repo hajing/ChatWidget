@@ -47,7 +47,7 @@ export default function HistoryItem({ title, isActive, onClick, onRename, onDele
         isActive ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-50',
       )}
     >
-      <span className="truncate flex-1 min-w-0">{title || '新对话'}</span>
+      <span className="truncate flex-1 min-w-0">{title || 'New Chat'}</span>
       <DropdownMenu>
         <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
           <Button
@@ -64,14 +64,14 @@ export default function HistoryItem({ title, isActive, onClick, onRename, onDele
             className="text-[13px] cursor-pointer"
           >
             <Pencil className="w-3.5 h-3.5 mr-2" />
-            重命名
+            Rename
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={(e) => { e.stopPropagation(); onDelete() }}
             className="text-[13px] text-red-600 focus:text-red-600 cursor-pointer"
           >
             <Trash2 className="w-3.5 h-3.5 mr-2" />
-            删除
+            Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

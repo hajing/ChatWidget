@@ -29,7 +29,7 @@ export const SCENARIOS = {
 
       // Step 3: Thinking
       chat.setThinking(true)
-      await chat.streamThinking('正在分析搜索结果，评估美国-伊朗冲突对马来西亚金融市场的影响。主要关注 KLCI 指数走势、令吉汇率波动、棕榈油期货价格变化，以及对本地基金投资组合的潜在影响...')
+      await chat.streamThinking('Analyzing search results to assess the US-Iran conflict impact on Malaysian financial markets. Key focus areas: KLCI index trends, Ringgit exchange rate volatility, palm oil futures price movements, and potential effects on local fund portfolios...')
       chat.setThinking(false)
       await delay(400)
 
@@ -66,7 +66,7 @@ export const SCENARIOS = {
 
       // Step 3: Thinking
       chat.setThinking(true)
-      await chat.streamThinking('正在深度分析 Hector 的 Green Energy 投资组合。审查当前持仓配置、各基金的历史表现、风险敞口、费用比率，并结合最新的 ESG 评级和市场趋势，制定优化建议...')
+      await chat.streamThinking('Performing deep analysis of Hector\'s Green Energy portfolio. Reviewing current holdings allocation, historical fund performance, risk exposure, expense ratios, and cross-referencing with latest ESG ratings and market trends to formulate optimization recommendations...')
       chat.setThinking(false)
       await delay(400)
 
@@ -121,7 +121,7 @@ The portfolio's ESG score is **A-** (MSCI). With the suggested changes, expected
 
       // Step 2: Thinking
       chat.setThinking(true)
-      await chat.streamThinking('已识别 3 位客户的投资组合今日跌幅超过 10%。正在分析每位客户的具体情况，并根据其风险偏好和投资目标，撰写个性化的安抚邮件...')
+      await chat.streamThinking('Identified 3 clients with portfolio drops exceeding 10% today. Analyzing each client\'s specific situation and composing personalized comfort emails based on their risk preferences and investment objectives...')
       chat.setThinking(false)
       await delay(400)
 
@@ -174,7 +174,7 @@ The portfolio's ESG score is **A-** (MSCI). With the suggested changes, expected
 
       // Step 2: Thinking
       chat.setThinking(true)
-      await chat.streamThinking('正在计算投资组合配置。查询 Apple (AAPL)、Google (GOOGL) 和 Amazon (AMZN) 的最新价格，计算总价值和各持仓占比...')
+      await chat.streamThinking('Calculating portfolio allocation. Fetching latest prices for Apple (AAPL), Google (GOOGL), and Amazon (AMZN), computing total value and weight distribution across holdings...')
       chat.setThinking(false)
       await delay(400)
 
@@ -230,7 +230,7 @@ The portfolio's ESG score is **A-** (MSCI). With the suggested changes, expected
 
       // Step 2: Thinking
       chat.setThinking(true)
-      await chat.streamThinking('正在验证客户信息：姓名 Hejing、身份证号码 950415-14-5678、联系方式、风险偏好为进取型。检查是否存在重复客户记录，并准备创建新客户档案...')
+      await chat.streamThinking('Validating client information: Name Hejing, IC number 950415-14-5678, contact details, risk profile set to Aggressive. Checking for duplicate client records and preparing to create new client profile...')
       chat.setThinking(false)
       await delay(400)
 
@@ -288,7 +288,12 @@ Registering client in the system...`)
     subtitle: 'Real-time subtitles, action items & instant triggers',
     prompt: "Start live transcription for Hector's Google Meet call. Detect action items in real-time and trigger portfolio creation when mentioned.",
     run: async ({ chat, stage, delay }) => {
-      // Step 1: Navigate to client list (Hector's card with recording icon)
+      const addLine = (sttIdx, lines, line) => {
+        lines.push(line)
+        chat.updateBlock(sttIdx, { lines: [...lines] })
+      }
+
+      // Phase 0: Connect to meeting
       chat.addBlock({ type: 'tool-call', name: 'start_recording', label: "Connecting to Hector's Google Meet session...", status: 'running' })
       await delay(1200)
       stage.navigate('client-list', { recordingClient: 'hector' })
@@ -296,86 +301,111 @@ Registering client in the system...`)
       chat.updateBlock(0, { status: 'done' })
       await delay(300)
 
-      // Step 2: Start STT block
-      chat.addBlock({
-        type: 'stt-transcript',
-        lines: [],
-        isLive: true,
-      })
-      const sttBlockIdx = chat.getBlockCount() - 1
+      chat.addBlock({ type: 'stt-transcript', lines: [], isLive: true })
+      const sttIdx = chat.getBlockCount() - 1
+      const lines = []
 
       chat.setStreaming(true)
       await chat.streamContent('Live transcription started. Listening to the meeting...\n')
       chat.setStreaming(false)
       await delay(1000)
 
-      // Step 3: Simulate transcript lines one by one
-      const transcript = [
-        { speaker: 'Advisor', text: "Good morning Hector, let's review your portfolio performance this quarter.", color: '#2263f8' },
-        { speaker: 'Hector', text: "Sure. I noticed the Green Energy portfolio did well. I'm thinking about adding more exposure.", color: '#078d39' },
-        { speaker: 'Advisor', text: 'Yes, Green Energy returned 8.3% YTD. The solar sector is driving most of the gains.', color: '#2263f8' },
-        { speaker: 'Hector', text: "That's great. I also want to diversify into US tech. Can we create a new portfolio?", color: '#078d39' },
-        { speaker: 'Advisor', text: "Absolutely. What stocks are you interested in?", color: '#2263f8' },
-        { speaker: 'Hector', text: "I'd like to create a new portfolio with Tesla 5,000 units, Microsoft 8,000 units, and Nvidia 3,000 units.", color: '#078d39' },
-        { speaker: 'Advisor', text: "Got it. Let me set that up for you right away.", color: '#2263f8' },
-      ]
+      // Phase 1: Normal conversation before trigger
+      addLine(sttIdx, lines, { speaker: 'Advisor', text: "Good morning Hector, let's review your portfolio performance this quarter.", color: '#2263f8' })
+      await delay(2200)
+      addLine(sttIdx, lines, { speaker: 'Hector', text: "Sure. I noticed the Green Energy portfolio did well. I'm thinking about adding more exposure.", color: '#078d39' })
+      await delay(2400)
+      addLine(sttIdx, lines, { speaker: 'Advisor', text: 'Yes, Green Energy returned 8.3% YTD. The solar sector is driving most of the gains.', color: '#2263f8' })
+      await delay(2000)
+      addLine(sttIdx, lines, { speaker: 'Hector', text: "That's great. I also want to diversify into US tech. Can we create a new portfolio?", color: '#078d39' })
+      await delay(1800)
+      addLine(sttIdx, lines, { speaker: 'Advisor', text: "Absolutely. What stocks are you interested in?", color: '#2263f8' })
+      await delay(2200)
 
-      const currentLines = []
-      for (let i = 0; i < transcript.length; i++) {
-        currentLines.push(transcript[i])
-        chat.updateBlock(sttBlockIdx, { lines: [...currentLines] })
-        await delay(1800 + Math.random() * 1200)
-      }
-      await delay(500)
+      // Phase 2: TRIGGER — Hector requests portfolio creation
+      addLine(sttIdx, lines, { speaker: 'Hector', text: "I'd like to create a new portfolio with Tesla 5,000 units, Microsoft 8,000 units, and Nvidia 3,000 units.", color: '#078d39' })
+      await delay(800)
 
-      // Step 4: Detected action item - show thinking
-      chat.setThinking(true)
-      await chat.streamThinking('检测到关键行动项：客户 Hector 要求创建新投资组合，包含 Tesla 5000 份、Microsoft 8000 份、Nvidia 3000 份。正在准备确认卡片...')
-      chat.setThinking(false)
-      await delay(400)
-
-      // Step 5: Stop live indicator
-      chat.updateBlock(sttBlockIdx, { isLive: false })
-
-      // Step 6: Show confirm card (generative UI)
+      const confirmActionId = 'sc6-create-portfolio'
+      const confirmBlockIdx = chat.getBlockCount()
       chat.addBlock({
         type: 'confirm-card',
-        title: 'Create Portfolio Detected',
+        actionId: confirmActionId,
+        title: 'Action Item Detected — Live',
         description: 'Hector mentioned creating a new portfolio: Tesla (5,000), Microsoft (8,000), Nvidia (3,000). Create it now?',
         primaryAction: 'Create Portfolio',
         secondaryAction: 'Dismiss',
       })
-      await delay(2000)
 
-      // Step 7: Simulate user clicking "Create Portfolio" — execute the creation
-      chat.addBlock({ type: 'tool-call', name: 'navigate_to_portfolios', label: "Opening Hector's portfolio list...", status: 'running' })
-      await delay(800)
-      stage.navigate('portfolio-list', { clientId: 'hector' })
-      await delay(700)
-      chat.updateBlock(chat.getBlockCount() - 1, { status: 'done' })
-      await delay(300)
+      const confirmPromise = chat.registerConfirmAction(confirmActionId)
 
-      chat.setThinking(true)
-      await chat.streamThinking('正在计算投资组合配置。查询 Tesla (TSLA)、Microsoft (MSFT) 和 Nvidia (NVDA) 的最新价格，计算总价值和各持仓占比...')
-      chat.setThinking(false)
-      await delay(400)
+      // Phase 3: Meeting continues for 60s regardless of user action
+      const postConfirmLines = [
+        { wait: 2000, speaker: 'Advisor', text: "Noted. Let me know whenever you're ready to proceed on that.", color: '#2263f8' },
+        { wait: 4000, speaker: 'Hector', text: "Sure. By the way, how's the bond market looking these days?", color: '#078d39' },
+        { wait: 4500, speaker: 'Advisor', text: "Bond yields are holding steady around 3.8%. I'd recommend a small allocation for stability.", color: '#2263f8' },
+        { wait: 5000, speaker: 'Hector', text: "Interesting. What about the property REIT sector?", color: '#078d39' },
+        { wait: 5000, speaker: 'Advisor', text: "Malaysian REITs are performing well — average dividend yield around 5.2%. Sunway REIT and IGB REIT are top picks.", color: '#2263f8' },
+        { wait: 5000, speaker: 'Hector', text: "Good to know. And commodities? I've been watching oil prices.", color: '#078d39' },
+        { wait: 5000, speaker: 'Advisor', text: "Crude oil has been volatile — currently around $82 per barrel. I'd keep commodity exposure below 10% for now.", color: '#2263f8' },
+        { wait: 5000, speaker: 'Hector', text: "What about gold as a hedge?", color: '#078d39' },
+        { wait: 5000, speaker: 'Advisor', text: "Gold is holding above $2,400. It's a solid hedge — I'd suggest 3-5% allocation via a gold ETF.", color: '#2263f8' },
+        { wait: 5000, speaker: 'Hector', text: "Makes sense. Any other recommendations before we wrap up?", color: '#078d39' },
+        { wait: 5000, speaker: 'Advisor', text: "I'd suggest reviewing your fixed income allocation next quarter. Other than that, the portfolio looks well-balanced.", color: '#2263f8' },
+        { wait: 4000, speaker: 'Hector', text: "Sounds good. I think we've covered everything for today.", color: '#078d39' },
+        { wait: 3500, speaker: 'Advisor', text: "Perfect. Have a great day, Hector!", color: '#2263f8' },
+      ]
 
-      chat.addBlock({ type: 'tool-call', name: 'create_portfolio', label: 'Creating portfolio "US Tech Premium"...', status: 'running' })
-      await delay(2000)
-      chat.updateBlock(chat.getBlockCount() - 1, { status: 'done' })
-      await delay(300)
+      let portfolioCreated = false
+      let userAction = null
 
-      stage.applyPendingUpdate('newPortfolio', {
-        id: 'us-tech-premium',
-        name: 'US Tech Premium',
-        value: 'RM 12,850,000',
-        return: 'New',
-        holdings: 3,
-        riskLevel: 'Aggressive',
-      })
+      // Run meeting lines for ~60s
+      const meetingPromise = (async () => {
+        for (const entry of postConfirmLines) {
+          await delay(entry.wait)
+          addLine(sttIdx, lines, { speaker: entry.speaker, text: entry.text, color: entry.color })
+        }
+      })()
+
+      // Wait for user to click confirm card OR meeting to end
+      const raceResult = await Promise.race([
+        confirmPromise.then((action) => ({ source: 'user', action })),
+        meetingPromise.then(() => ({ source: 'meeting-end' })),
+      ])
+
+      if (raceResult.source === 'user') {
+        userAction = raceResult.action
+
+        if (userAction === 'primary') {
+          chat.addBlock({ type: 'tool-call', name: 'create_portfolio', label: 'Creating portfolio "US Tech Premium"...', status: 'running' })
+          await delay(2500)
+          chat.updateBlock(chat.getBlockCount() - 1, { status: 'done' })
+          stage.navigate('portfolio-list', { clientId: 'hector' })
+          stage.applyPendingUpdate('newPortfolio', {
+            id: 'us-tech-premium',
+            name: 'US Tech Premium',
+            value: 'RM 12,850,000',
+            return: 'New',
+            holdings: 3,
+            riskLevel: 'Aggressive',
+          })
+          portfolioCreated = true
+        }
+
+        // Let the meeting finish naturally
+        await meetingPromise
+      } else {
+        // Meeting ended before user acted — mark confirm card as expired
+        chat.updateBlock(confirmBlockIdx, { status: 'expired' })
+      }
+
+      // Phase 4: Meeting ends
+      chat.updateBlock(sttIdx, { isLive: false })
+      await delay(500)
 
       chat.setStreaming(true)
-      await chat.streamContent(`\n\nPortfolio **"US Tech Premium"** has been created from the meeting action item:
+      if (portfolioCreated) {
+        await chat.streamContent(`\n\nMeeting ended. Portfolio **"US Tech Premium"** was created during the call:
 
 | Stock | Units | Est. Price (USD) | Est. Value (USD) |
 |-------|-------|------------------|------------------|
@@ -385,7 +415,12 @@ Registering client in the system...`)
 
 **Total**: ~$6,965,500 (~RM 12,850,000)
 
-Meeting summary captured. 1 action item detected and executed.\n\n**Task complete.**`)
+**1 action item** detected and executed in real-time during the meeting.`)
+      } else if (userAction === 'secondary') {
+        await chat.streamContent('\n\nMeeting ended. The portfolio creation action item was **dismissed**. No portfolio was created.\n\nYou can revisit this action from the meeting transcript above.')
+      } else {
+        await chat.streamContent('\n\nMeeting ended. The action item to create a portfolio was **not acted upon** and has expired.\n\nYou can replay this scenario to try again.')
+      }
       chat.setStreaming(false)
     },
   },
@@ -409,7 +444,7 @@ Meeting summary captured. 1 action item detected and executed.\n\n**Task complet
 
       // Step 3: Thinking
       chat.setThinking(true)
-      await chat.streamThinking('成功获取 Bursa Malaysia 页面内容。正在解析 HTML 结构，提取市场指数数据、涨幅榜和跌幅榜、以及市场评论文本。清洗数据并组织为结构化格式...')
+      await chat.streamThinking('Successfully fetched Bursa Malaysia page content. Parsing HTML structure, extracting market index data, top gainers and losers, and market commentary text. Cleaning data and organizing into structured format...')
       chat.setThinking(false)
       await delay(400)
 
@@ -462,7 +497,7 @@ The structured data is now displayed in the playground.`)
 
       // Step 3: Thinking
       chat.setThinking(true)
-      await chat.streamThinking('正在对比分析两只基金的表现。比较维度包括：年化收益率、波动率、夏普比率、最大回撤、费用比率、基金规模、持仓集中度等关键指标...')
+      await chat.streamThinking('Conducting comparative analysis of both funds. Comparison dimensions include: annualized returns, volatility, Sharpe ratio, maximum drawdown, expense ratio, fund size, and holding concentration metrics...')
       chat.setThinking(false)
       await delay(400)
 

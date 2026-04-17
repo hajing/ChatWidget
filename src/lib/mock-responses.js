@@ -1,6 +1,6 @@
 const RESPONSES = {
   'What is ChatKit?': {
-    thinking: '用户想了解 ChatKit 的基本概念。我需要从框架定义、核心能力、SDK 支持三个维度来介绍，确保覆盖 UI 组件构建、工作流编排和跨平台支持这几个关键点。让我组织一下回复结构...',
+    thinking: 'The user wants to understand ChatKit basics. I should cover the framework definition, core capabilities, and SDK support across three dimensions, ensuring coverage of UI component building, workflow orchestration, and cross-platform support. Let me structure the response...',
     content: `ChatKit is a framework for building custom chat-based user interfaces (UIs) and workflows. It provides developers with components and APIs to create chat applications that go beyond simple messaging—enabling integration with forms, data visualization, workflows, bot interactions, and more.
 
 With ChatKit, you can:
@@ -15,7 +15,7 @@ Want to see a demo of a sample widget?`,
   },
 
   'Show me an example widget': {
-    thinking: '用户想看一个具体的组件示例。我应该展示一段简洁的 JSX 代码，用 Card 组件作为例子，附带 actions 交互按钮，这样能直观体现 ChatKit 的富消息能力。代码不宜太长，关键是让用户理解嵌套结构...',
+    thinking: 'The user wants to see a concrete component example. I should present a concise JSX code snippet using a Card component with action buttons to intuitively demonstrate ChatKit\'s rich message capabilities. The code should be brief while conveying the nested structure...',
     content: `Here's a simple example of how you could use ChatKit to render a custom card widget inside a chat message:
 
 \`\`\`jsx
@@ -43,7 +43,7 @@ This demonstrates how ChatKit lets you embed **rich interactive components** dir
   },
 
   'What can I customize?': {
-    thinking: '这是一个关于定制化的问题，范围很广。我需要分类梳理：主题（色彩、字体、圆角、密度）、组件（起始页、输入区、模型选择、工具菜单、消息操作）、高级（表面色、灰度色调、CSS 变量）。按层级从浅到深排列...',
+    thinking: 'This is a broad customization question. I need to categorize: themes (colors, fonts, border-radius, density), components (start screen, input area, model selector, tool menu, message actions), and advanced (surface colors, gray tones, CSS variables). Arrange from basic to advanced...',
     content: `ChatKit offers extensive customization options:
 
 ### Theming
@@ -69,7 +69,7 @@ All settings can be configured through the Playground UI or programmatically via
   },
 
   'How do I use client side tools?': {
-    thinking: '用户问的是客户端工具的使用方式。我需要分步讲解：定义 tools 数组（包含 name、description、parameters、execute），传入 ChatWidget，然后解释运行流程。代码示例要完整但不冗长，用 search_docs 作为典型用例...',
+    thinking: 'The user is asking about client-side tool usage. I need to explain step by step: define the tools array (with name, description, parameters, execute), pass it into ChatWidget, then explain the execution flow. Code examples should be complete but concise, using search_docs as a typical use case...',
     content: `Client-side tools in ChatKit let you execute functions directly in the browser during a conversation. Here's how to set them up:
 
 \`\`\`javascript
@@ -107,7 +107,7 @@ This enables powerful integrations like search, calculations, API calls, and mor
   },
 
   'Server side tools': {
-    thinking: '服务端工具和客户端工具的区别在于安全性和计算能力。我先列出适用场景（数据库、API、认证、重计算），再给一个 Python 装饰器的代码示例，最后用有序列表解释请求流程。保持和客户端工具的解释风格一致...',
+    thinking: 'The difference between server-side and client-side tools lies in security and computing power. I\'ll first list applicable scenarios (database, API, auth, heavy computation), then provide a Python decorator code example, and finally explain the request flow with an ordered list. Keep the explanation style consistent with client-side tools...',
     content: `Server-side tools run on your backend and are useful for operations that require:
 
 - **Database access** — Query or update data securely
@@ -141,7 +141,7 @@ Server-side tools are the recommended approach for any operation involving sensi
 }
 
 const FALLBACK_RESPONSE = {
-  thinking: '这个问题不在预设范围内，让我给出一个通用的引导性回复，指向 ChatKit 的主要功能领域，帮助用户找到感兴趣的方向...',
+  thinking: 'This question is outside the preset scope. Let me provide a general guiding response pointing to ChatKit\'s main feature areas to help the user find their area of interest...',
   content: `That's an interesting question! I'd be happy to help you explore that topic.
 
 ChatKit provides a flexible framework for building conversational interfaces. Here are some things I can help with:

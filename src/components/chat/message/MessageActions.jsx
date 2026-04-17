@@ -44,10 +44,10 @@ export default function MessageActions({ content, onRetry }) {
 
   return (
     <div className="flex items-center gap-0.5 px-6 py-1">
-      <ActionButton icon={Copy} activeIcon={Check} label="复制" onClick={handleCopy} />
-      <ActionButton icon={ThumbsUp} label="赞" />
-      <ActionButton icon={ThumbsDown} label="踩" />
-      <ActionButton icon={RefreshCw} label="重新生成" onClick={onRetry} />
+      <ActionButton icon={Copy} activeIcon={Check} label="Copy" onClick={handleCopy} />
+      <ActionButton icon={ThumbsUp} label="Like" />
+      <ActionButton icon={ThumbsDown} label="Dislike" />
+      <ActionButton icon={RefreshCw} label="Regenerate" onClick={onRetry} />
     </div>
   )
 }

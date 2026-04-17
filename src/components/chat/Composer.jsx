@@ -42,7 +42,7 @@ export default function Composer({ onSend, disabled, readonly }) {
               value={value}
               onChange={(e) => !readonly && setValue(e.target.value)}
               onKeyDown={readonly ? undefined : handleKeyDown}
-              placeholder={readonly ? 'Select a scenario above to get started' : '给 AI 发消息'}
+              placeholder="Select a scenario above to get started"
               disabled={disabled || readonly}
               rows={1}
               className={cn(
@@ -65,7 +65,7 @@ export default function Composer({ onSend, disabled, readonly }) {
                     <Plus className="w-[18px] h-[18px]" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>添加附件</TooltipContent>
+                <TooltipContent>Attach files</TooltipContent>
               </Tooltip>
               <ModelSelector />
               <Tooltip>

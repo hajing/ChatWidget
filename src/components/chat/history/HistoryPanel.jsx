@@ -11,15 +11,15 @@ function groupByDate(sessions) {
   const yesterday = today - 86400000
   const weekAgo = today - 7 * 86400000
 
-  const groups = { '今天': [], '昨天': [], '近7天': [], '更早': [] }
+  const groups = { 'Today': [], 'Yesterday': [], 'Last 7 Days': [], 'Older': [] }
 
   const sorted = Object.values(sessions).sort((a, b) => b.createdAt - a.createdAt)
 
   for (const s of sorted) {
-    if (s.createdAt >= today) groups['今天'].push(s)
-    else if (s.createdAt >= yesterday) groups['昨天'].push(s)
-    else if (s.createdAt >= weekAgo) groups['近7天'].push(s)
-    else groups['更早'].push(s)
+    if (s.createdAt >= today) groups['Today'].push(s)
+    else if (s.createdAt >= yesterday) groups['Yesterday'].push(s)
+    else if (s.createdAt >= weekAgo) groups['Last 7 Days'].push(s)
+    else groups['Older'].push(s)
   }
 
   return Object.entries(groups).filter(([, items]) => items.length > 0)
@@ -62,7 +62,7 @@ export default function HistoryPanel() {
           >
             <ArrowLeft className="w-[18px] h-[18px]" />
           </Button>
-          <h1 className="text-sm font-semibold truncate">历史聊天记录</h1>
+          <h1 className="text-sm font-semibold truncate">Chat History</h1>
         </div>
         <div className="flex items-center gap-1">
           <Button
@@ -90,12 +90,12 @@ export default function HistoryPanel() {
             className="flex items-center gap-2 w-full px-3 py-2.5 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
           >
             <SquarePen className="w-4 h-4 text-gray-400" />
-            <span>新聊天</span>
+            <span>New Chat</span>
           </button>
 
           {isEmpty && (
             <div className="flex items-center justify-center py-16 text-sm text-gray-400">
-              暂无聊天记录
+              No chat history yet
             </div>
           )}
 

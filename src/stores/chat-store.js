@@ -8,6 +8,22 @@ let streamTimer = null
 let phaseTimer = null
 let abortController = null
 
+const _confirmResolvers = new Map()
+
+export function registerConfirmAction(actionId) {
+  return new Promise((resolve) => {
+    _confirmResolvers.set(actionId, resolve)
+  })
+}
+
+export function resolveConfirmAction(actionId, action) {
+  const resolver = _confirmResolvers.get(actionId)
+  if (resolver) {
+    resolver(action)
+    _confirmResolvers.delete(actionId)
+  }
+}
+
 function uid() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 8)
 }
@@ -348,6 +364,7 @@ export const useChatStore = create((set, get) => ({
       getBlockCount,
       setThinking: (val) => set({ isThinking: val }),
       setStreaming: (val) => set({ isStreaming: val }),
+      registerConfirmAction,
     }
 
     const stageStore = useStageStore.getState()

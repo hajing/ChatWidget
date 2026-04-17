@@ -25,8 +25,8 @@ export default function ThinkingBlock({ thinking, isActive }) {
   if (!thinking) return null
 
   const label = isActive
-    ? `思考中${elapsed > 0 ? ` ${elapsed}s` : '...'}`
-    : `已深度思考${elapsed > 0 ? ` (${elapsed}s)` : ''}`
+    ? `Thinking${elapsed > 0 ? ` ${elapsed}s` : '...'}`
+    : `Thought${elapsed > 0 ? ` (${elapsed}s)` : ''}`
 
   return (
     <div className="px-6 py-1.5">
