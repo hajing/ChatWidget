@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip'
 import ModelSelector from './ModelSelector'
 
-export default function Composer({ onSend, disabled }) {
+export default function Composer({ onSend, disabled, readonly }) {
   const [value, setValue] = useState('')
   const textareaRef = useRef(null)
 
@@ -40,15 +40,16 @@ export default function Composer({ onSend, disabled }) {
             <textarea
               ref={textareaRef}
               value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="给 AI 发消息"
-              disabled={disabled}
+              onChange={(e) => !readonly && setValue(e.target.value)}
+              onKeyDown={readonly ? undefined : handleKeyDown}
+              placeholder={readonly ? 'Select a scenario above to get started' : '给 AI 发消息'}
+              disabled={disabled || readonly}
               rows={1}
               className={cn(
                 'flex-1 resize-none border-0 bg-transparent px-4 pt-3 pb-2',
                 'text-[15px] placeholder:text-gray-400 outline-none',
                 'min-h-[44px] max-h-[150px]',
+                readonly && 'cursor-default',
               )}
             />
           </div>

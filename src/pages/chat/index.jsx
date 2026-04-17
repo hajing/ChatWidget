@@ -22,7 +22,7 @@ export default function ChatPage() {
   const messages = session?.messages || []
   const title = session?.title || ''
   const hasMessages = messages.length > 0
-  const busy = store.isThinking || store.isStreaming
+  const busy = store.isThinking || store.isStreaming || store.isScenarioRunning
 
   const handleNewChat = useCallback(() => {
     store.resetChat()
@@ -36,6 +36,14 @@ export default function ChatPage() {
       navigate(`/chat/${sid}`, { replace: true })
     }
   }, [store.sendMessage, navigate])
+
+  const handleSelectScenario = useCallback((scenarioId) => {
+    store.runScenario(scenarioId)
+    const sid = useChatStore.getState().activeSessionId
+    if (sid) {
+      navigate(`/chat/${sid}`, { replace: true })
+    }
+  }, [store.runScenario, navigate])
 
   return (
     <>
@@ -53,11 +61,12 @@ export default function ChatPage() {
         />
       ) : (
         <StartScreen
-          greeting="今天能为你做些什么？"
-          onSelectPrompt={handleSend}
+          greeting="How can I help you today?"
+          onSelectScenario={handleSelectScenario}
+          disabled={busy}
         />
       )}
-      <Composer onSend={handleSend} disabled={busy} />
+      <Composer onSend={handleSend} disabled={busy} readonly={!hasMessages && !busy} />
     </>
   )
 }
