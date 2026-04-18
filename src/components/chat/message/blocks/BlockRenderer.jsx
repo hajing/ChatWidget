@@ -5,6 +5,9 @@ import TaskListBlock from './TaskListBlock'
 import SttTranscriptBlock from './SttTranscriptBlock'
 import ConfirmCardBlock from './ConfirmCardBlock'
 import ActionButtonsBlock from './ActionButtonsBlock'
+import NewsAnalysisBlock from './NewsAnalysisBlock'
+import FundComparisonBlock from './FundComparisonBlock'
+import WebScrapeBlock from './WebScrapeBlock'
 
 const BLOCK_MAP = {
   'web-search': WebSearchBlock,
@@ -14,6 +17,9 @@ const BLOCK_MAP = {
   'stt-transcript': SttTranscriptBlock,
   'confirm-card': ConfirmCardBlock,
   'action-buttons': ActionButtonsBlock,
+  'news-analysis': NewsAnalysisBlock,
+  'fund-comparison': FundComparisonBlock,
+  'web-scrape': WebScrapeBlock,
 }
 
 // Action blocks appear before thinking; result blocks appear after content

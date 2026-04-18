@@ -1,13 +1,15 @@
 import { useStageStore } from '@/stores/stage-store'
 import { motion, AnimatePresence } from 'framer-motion'
 import StageWelcome from './StageWelcome'
-import Playground from './Playground'
 import Sidebar from './Sidebar'
 import StageHeader from './StageHeader'
 import ClientListPage from './pages/ClientListPage'
 import PortfolioListPage from './pages/PortfolioListPage'
 import PortfolioDetailPage from './pages/PortfolioDetailPage'
 import FundListPage from './pages/FundListPage'
+import InsightNewsPage from './pages/InsightNewsPage'
+import InsightFundComparisonPage from './pages/InsightFundComparisonPage'
+import InsightWebScrapePage from './pages/InsightWebScrapePage'
 
 const VIEW_MAP = {
   welcome: StageWelcome,
@@ -15,6 +17,9 @@ const VIEW_MAP = {
   'portfolio-list': PortfolioListPage,
   'portfolio-detail': PortfolioDetailPage,
   'fund-list': FundListPage,
+  'insight-news': InsightNewsPage,
+  'insight-fund-comparison': InsightFundComparisonPage,
+  'insight-web-scrape': InsightWebScrapePage,
 }
 
 const BREADCRUMB_MAP = {
@@ -22,6 +27,9 @@ const BREADCRUMB_MAP = {
   'portfolio-list': ['Asset Management', 'Client List', 'Client Details'],
   'portfolio-detail': ['Asset Management', 'Client List', 'Client Details', 'Portfolio'],
   'fund-list': ['Fund Library'],
+  'insight-news': ['AI Insights', 'Financial News & Impact'],
+  'insight-fund-comparison': ['AI Insights', 'Fund Comparison'],
+  'insight-web-scrape': ['AI Insights', 'Web Extraction'],
 }
 
 export default function MainStage() {
@@ -49,7 +57,6 @@ export default function MainStage() {
           </AnimatePresence>
         </div>
       </div>
-      <Playground />
     </div>
   )
 }

@@ -16,30 +16,27 @@ export const SCENARIOS = {
     title: 'Financial News & Impact',
     subtitle: 'Malaysia news + US-Iran war impact analysis',
     prompt: 'Show me the latest Malaysia financial news and analyze how the US-Iran conflict impacts the Malaysian market.',
-    run: async ({ chat, stage, delay }) => {
-      // Step 1: Open playground loading
-      stage.openPlayground('Financial News & Impact Analysis')
-      await delay(500)
-
-      // Step 2: Web search
+    run: async ({ chat, delay }) => {
+      // Step 1: Web search
       chat.addBlock({ type: 'web-search', query: 'Malaysia financial news US Iran war impact 2026', status: 'searching' })
       await delay(2500)
       chat.updateBlock(0, { status: 'done', results: 5 })
       await delay(300)
 
-      // Step 3: Thinking
+      // Step 2: Thinking
       chat.setThinking(true)
       await chat.streamThinking('Analyzing search results to assess the US-Iran conflict impact on Malaysian financial markets. Key focus areas: KLCI index trends, Ringgit exchange rate volatility, palm oil futures price movements, and potential effects on local fund portfolios...')
       chat.setThinking(false)
       await delay(400)
 
-      // Step 4: Stream content
+      // Step 3: Stream content
       chat.setStreaming(true)
-      await chat.streamContent('Done! I\'ve compiled the latest Malaysia financial news and analyzed the US-Iran conflict impact on the Malaysian market.\n\n**Key Findings:**\n- KLCI dropped 2.3% this week amid geopolitical tensions\n- Ringgit weakened to 4.52 against USD\n- Palm oil futures surged 8.2% due to supply chain concerns\n- Defense and energy sectors showing unusual activity\n\nThe full analysis with news articles is now displayed in the playground.')
+      await chat.streamContent('Done! I\'ve compiled the latest Malaysia financial news and analyzed the US-Iran conflict impact on the Malaysian market.\n\n**Key Findings:**\n- KLCI dropped 2.3% this week amid geopolitical tensions\n- Ringgit weakened to 4.52 against USD\n- Palm oil futures surged 8.2% due to supply chain concerns\n- Defense and energy sectors showing unusual activity\n\nA quick summary is inline below — click "在画布中查看" to open the full landscape view.')
       chat.setStreaming(false)
+      await delay(300)
 
-      // Step 5: Show playground content
-      stage.updatePlayground('news-analysis')
+      // Step 4: Inline news analysis block (landscape only opens if user clicks expand)
+      chat.addBlock({ type: 'news-analysis' })
     },
   },
 
@@ -429,29 +426,22 @@ Registering client in the system...`)
     id: 'scenario-7',
     icon: Link,
     title: 'Scrape Web Link',
-    subtitle: 'Extract data from URL & display in playground',
+    subtitle: 'Extract data from URL & display inline in chat',
     prompt: 'Scrape https://www.bursamalaysia.com/market and extract the latest market data, top gainers and losers, and market commentary.',
-    run: async ({ chat, stage, delay }) => {
-      // Step 1: Open playground in loading state
-      stage.openPlayground('Web Data Extraction')
-      await delay(500)
-
-      // Step 2: Web search / crawl
+    run: async ({ chat, delay }) => {
+      // Step 1: Web search / crawl
       chat.addBlock({ type: 'web-search', query: 'https://www.bursamalaysia.com/market — fetching page content', status: 'searching' })
       await delay(3000)
       chat.updateBlock(0, { status: 'done', results: 1 })
       await delay(300)
 
-      // Step 3: Thinking
+      // Step 2: Thinking
       chat.setThinking(true)
       await chat.streamThinking('Successfully fetched Bursa Malaysia page content. Parsing HTML structure, extracting market index data, top gainers and losers, and market commentary text. Cleaning data and organizing into structured format...')
       chat.setThinking(false)
       await delay(400)
 
-      // Step 4: Show scraped data in playground
-      stage.updatePlayground('web-scrape')
-
-      // Step 5: Stream summary
+      // Step 3: Stream summary
       chat.setStreaming(true)
       await chat.streamContent(`Done! I've scraped and extracted the data from **bursamalaysia.com/market**.
 
@@ -461,11 +451,15 @@ Registering client in the system...`)
 - Top 3 losers (led by TOPGLOV -15.00%)
 - Full market commentary text
 
-The structured data is now displayed in the playground.`)
+A quick summary is inline below — click "在画布中查看" to open the full landscape view.`)
       chat.setStreaming(false)
+      await delay(300)
+
+      // Step 4: Inline scraped data block (landscape only opens if user clicks expand)
+      chat.addBlock({ type: 'web-scrape' })
       await delay(400)
 
-      // Step 6: Action buttons for saving
+      // Step 5: Action buttons for saving
       chat.addBlock({
         type: 'action-buttons',
         buttons: [
@@ -484,44 +478,31 @@ The structured data is now displayed in the playground.`)
     title: 'Compare Two Funds',
     subtitle: 'Side-by-side fund performance comparison',
     prompt: 'Compare the performance of CIMB Islamic DALI Equity Growth Fund vs Maybank Malaysia Growth Fund.',
-    run: async ({ chat, stage, delay }) => {
-      // Step 1: Open playground
-      stage.openPlayground('Fund Comparison: CIMB Islamic vs Maybank Growth')
-      await delay(500)
-
-      // Step 2: Web search
+    run: async ({ chat, delay }) => {
+      // Step 1: Web search
       chat.addBlock({ type: 'web-search', query: 'CIMB Islamic DALI Equity Growth Fund vs Maybank Malaysia Growth Fund 2026 performance', status: 'searching' })
       await delay(2500)
       chat.updateBlock(0, { status: 'done', results: 6 })
       await delay(300)
 
-      // Step 3: Thinking
+      // Step 2: Thinking
       chat.setThinking(true)
       await chat.streamThinking('Conducting comparative analysis of both funds. Comparison dimensions include: annualized returns, volatility, Sharpe ratio, maximum drawdown, expense ratio, fund size, and holding concentration metrics...')
       chat.setThinking(false)
       await delay(400)
 
-      // Step 4: Show comparison
-      stage.updatePlayground('fund-comparison')
-
-      // Step 5: Stream summary
+      // Step 3: Stream summary
       chat.setStreaming(true)
       await chat.streamContent(`## Fund Comparison Summary
 
-| Metric | CIMB Islamic DALI | Maybank Growth |
-|--------|-------------------|----------------|
-| 1Y Return | +12.8% | +9.4% |
-| 3Y Annualized | +8.5% | +7.2% |
-| Volatility | 14.2% | 11.8% |
-| Sharpe Ratio | 0.89 | 0.76 |
-| Max Drawdown | -15.3% | -12.1% |
-| Expense Ratio | 1.65% | 1.48% |
-| Fund Size | RM 2.1B | RM 1.8B |
-
 **Verdict**: CIMB Islamic DALI offers higher returns but with greater volatility. Maybank Growth is the more conservative choice. For growth-oriented clients, CIMB is recommended; for risk-averse clients, Maybank is preferable.
 
-The detailed comparison charts are displayed in the playground.`)
+A quick summary is inline below — click "在画布中查看" to open the full landscape view.`)
       chat.setStreaming(false)
+      await delay(300)
+
+      // Step 4: Inline fund comparison block (landscape only opens if user clicks expand)
+      chat.addBlock({ type: 'fund-comparison' })
     },
   },
 }

@@ -233,3 +233,28 @@ export const FUND_COMPARISON = {
   },
   months: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'],
 }
+
+// ========== WEB SCRAPE (Bursa Malaysia) ==========
+export const MARKET_INDICES = [
+  { index: 'FBMKLCI', last: '1,478.23', change: '-34.70', pctChange: '-2.29%', isNeg: true },
+  { index: 'KLCI Futures', last: '1,475.00', change: '-38.50', pctChange: '-2.54%', isNeg: true },
+  { index: 'FBM EMAS', last: '10,312.45', change: '-198.30', pctChange: '-1.89%', isNeg: true },
+  { index: 'FBM70', last: '13,024.11', change: '-156.22', pctChange: '-1.19%', isNeg: true },
+]
+
+export const TOP_GAINERS = [
+  { name: 'PCHEM', price: '7.12', change: '+0.38', pct: '+5.64%' },
+  { name: 'DIALOG', price: '2.45', change: '+0.12', pct: '+5.15%' },
+  { name: 'SAPNRG', price: '1.08', change: '+0.05', pct: '+4.85%' },
+]
+
+export const TOP_LOSERS = [
+  { name: 'TOPGLOV', price: '1.02', change: '-0.18', pct: '-15.00%' },
+  { name: 'GENTING', price: '4.15', change: '-0.55', pct: '-11.70%' },
+  { name: 'AIRASIA', price: '1.38', change: '-0.16', pct: '-10.39%' },
+]
+
+export const MARKET_COMMENTARY = [
+  'The Malaysian equity market experienced broad-based selling pressure today, driven by escalating geopolitical tensions and rising global interest rate expectations. The FBMKLCI fell 2.29% to close at 1,478.23, its lowest level in three months.',
+  'Trading volume surged to 5.8 billion shares valued at RM 4.2 billion, well above the 3-month average. Foreign investors were net sellers at RM 380 million, marking the fifth consecutive day of foreign outflows. Analysts recommend a cautious approach with a focus on defensive sectors.',
+]
